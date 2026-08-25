@@ -15,9 +15,9 @@ Public URL: <https://status.officeriders.com>
 
 The public page reports these customer-facing components:
 
-- Site public: `PROBE_URL_LANDING`
-- Application: `PROBE_URL_APP`
-- Espace hôte: `PROBE_URL_HOST`
+- Public website: `PROBE_URL_LANDING`
+- Web app: `PROBE_URL_APP`
+- Host app: `PROBE_URL_HOST`
 - API: `PROBE_URL_API`
 
 The URLs are stored as GitHub repository variables. They are not embedded in the

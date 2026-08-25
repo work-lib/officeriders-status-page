@@ -2,15 +2,15 @@
   "components": [
     {
       "id": "landing",
-      "label": "Site public"
+      "label": "Public website"
     },
     {
       "id": "app",
-      "label": "Application"
+      "label": "Web app"
     },
     {
       "id": "host",
-      "label": "Espace hôte"
+      "label": "Host app"
     },
     {
       "id": "api",
