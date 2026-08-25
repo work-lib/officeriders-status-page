@@ -3,6 +3,7 @@ name: CI
 # OfficeRiders fork: validate monitoring configuration and public artifacts.
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]
