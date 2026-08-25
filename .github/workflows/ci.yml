@@ -1,5 +1,7 @@
 name: CI
 
+# OfficeRiders fork: validate monitoring configuration and public artifacts.
+
 on:
   pull_request:
   push:

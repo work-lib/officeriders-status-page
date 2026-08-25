@@ -1,5 +1,7 @@
 name: status
 
+# OfficeRiders fork: publish the generated public status site with GitHub Pages.
+
 on:
   issues:
     types: [opened, edited, closed, deleted, labeled, unlabeled]
