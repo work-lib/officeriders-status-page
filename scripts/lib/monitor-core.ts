@@ -77,7 +77,12 @@ export function planMonitorActions(
       severity: result.status,
       title: `[Incident] Service disruption detected on ${label}`,
       body: `The monitoring system detected a ${result.status} status on ${label} at ${now.toISOString()}.`,
-      labels: [`component:${result.component}`, `severity:${result.status}`],
+      labels: [
+        'incident',
+        'automated',
+        `component:${result.component}`,
+        `severity:${result.status}`,
+      ],
     };
   });
 }

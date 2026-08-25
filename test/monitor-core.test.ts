@@ -54,7 +54,7 @@ describe('monitor pure logic', () => {
         severity: 'outage',
         title: '[Incident] Service disruption detected on Dashboard',
         body: 'The monitoring system detected a outage status on Dashboard at 2026-07-12T10:00:00.000Z.',
-        labels: ['component:dashboard', 'severity:outage'],
+        labels: ['incident', 'automated', 'component:dashboard', 'severity:outage'],
       },
     ]);
   });
@@ -91,7 +91,7 @@ describe('monitor pure logic', () => {
         severity: 'degraded',
         title: '[Incident] Service disruption detected on edge',
         body: 'The monitoring system detected a degraded status on edge at 2026-07-12T10:00:00.000Z.',
-        labels: ['component:edge', 'severity:degraded'],
+        labels: ['incident', 'automated', 'component:edge', 'severity:degraded'],
       },
     ]);
   });
