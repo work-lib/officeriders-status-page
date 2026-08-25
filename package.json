@@ -1,9 +1,9 @@
 {
-  "name": "kicoba-status-page",
+  "name": "officeriders-status-page",
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Public status page for Kicoba services.",
+  "description": "Public status page for OfficeRiders services.",
   "license": "EUPL-1.2",
   "engines": {
     "node": ">=24"

@@ -1,101 +1,85 @@
-# Kicoba Status
+# OfficeRiders Status
 
-Public status page for Kicoba services.
+Public status page for OfficeRiders services, forked from
+[Kicoba Status Page](https://github.com/Kicoba/kicoba-status-page).
 
-It shows the current health of Kicoba public-facing surfaces: Landing Page,
-App, API, Data Room and Agent Execution. It also keeps a 90-day uptime history and
-recent incidents.
+The site is static and served by GitHub Pages so it remains available during an
+OfficeRiders or GCP outage. GitHub Actions checks the public surfaces every five
+minutes. Detected outages create GitHub issues, and recovery closes them
+automatically. Those issues provide the 90-day uptime and incident history shown
+on the page.
 
-The site is static and served by GitHub Pages, so it stays up during an outage.
-Availability is checked automatically every five minutes.
+Public URL: <https://status.officeriders.com>
 
-Live URL: https://status.kicoba.com
+## Monitored surfaces
 
-## How it compares
+The public page reports these customer-facing components:
 
-Already know Upptime or another status page? See
-[how this compares to Upptime](docs/comparison-with-upptime.md).
+- Site public: `PROBE_URL_LANDING`
+- Application: `PROBE_URL_APP`
+- Espace hôte: `PROBE_URL_HOST`
+- API: `PROBE_URL_API`
 
-## Layout
+The URLs are stored as GitHub repository variables. They are not embedded in the
+source configuration.
 
-- `site/` static frontend served by GitHub Pages
-- `scripts/` generation and monitoring scripts
-- `.github/workflows/` deployment and monitoring workflows
-- `monitor.config.json` component definitions and probe configuration, with environment variable references only
+Private infrastructure probes run in the same monitor workflow but never create
+public incidents or print their URLs:
+
+- Argos control plane: `PROBE_URL_PRIVATE_ARGOS`
+- Vault: `PROBE_URL_PRIVATE_VAULT`
+
+Private probe URLs are stored as GitHub repository secrets. A private failure
+fails the monitor workflow for the infrastructure team without adding the
+internal endpoint to the public status page.
+
+## Incident model
+
+The monitor opens at most one issue for each affected component. Automated
+issues use `component:<id>` and `severity:<severity>` labels. When the component
+recovers, the monitor adds a recovery comment and closes the issue.
+
+Manual incidents can use the same labels and are included in the public history.
+Do not include secrets, customer data, internal hostnames, tokens, logs, or raw
+environment values in an issue.
 
 ## Configuration
 
-Everything about the tracked services lives in `monitor.config.json`. To adopt
-this status page for your own services, edit that one file. It has two parts:
+Component definitions and probe mappings live in `monitor.config.json`. Probe
+URLs are provided only through GitHub variables or secrets referenced by their
+`urlEnv` names.
 
-- `components` is the list of services shown on the page. Each entry is an `id`
-  used in issue labels (`component:<id>`) and a human `label` rendered in the UI.
-- `probes` is how each component is checked. A `http-200` probe maps one URL to
-  one component. An `api-status-json` probe reads a JSON object of
-  `{ key: status }` and maps each payload key to a component id, so a single
-  backend endpoint can report several components at once.
-- `privateProbes` are alpha-only synthetic checks. They fail the monitor workflow
-  without creating public incidents, and they never print the probed URLs.
+Required repository settings:
 
-Probe URLs are never committed. They are provided as repository secrets or
-variables and read from the environment at runtime through the `urlEnv` names in
-the config. The default public Kicoba configuration reads:
+- Actions workflow permissions allow GitHub Actions to create issues.
+- GitHub Pages uses GitHub Actions as its build and deployment source.
+- Custom domain is `status.officeriders.com`.
+- DNS `CNAME status.officeriders.com -> work-lib.github.io` is DNS-only.
 
-- `PROBE_URL_LANDING`
-- `PROBE_URL_APP`
-- `PROBE_URL_DATAROOM`
-- `PROBE_URL_API_STATUS`
-
-
-Private alpha checks are configured through these optional secrets:
-
-- `PROBE_URL_PRIVATE_APP_LOGIN`
-- `PROBE_URL_PRIVATE_WAITLIST`
-- `PROBE_URL_PRIVATE_DATAROOM_AUTH_GATE`
-- `PROBE_URL_PRIVATE_AUTOMATION_CANARY`
-
-If a private secret is absent, the private probe is skipped with a sanitized warning.
-
-## Use it for your own services
-
-This is Kicoba's own status page, and you are welcome to run it for yours:
-
-1. Fork the repository.
-2. Edit `monitor.config.json` with your own `components` and `probes` (see Configuration above).
-3. Add your probe URLs as repository secrets or variables, using the `urlEnv` names from your config.
-4. Set your branding: edit the header in `site/index.html` and put your domain in `site/CNAME`.
-5. Enable GitHub Pages on your fork and point your DNS at it.
-6. The commit-identity enforcement (`scripts/setup.sh` plus `.githooks/pre-commit`) is specific to the Kicoba repository. Remove it or replace it with your own identity.
-
-Please keep the `https://kicoba.com` link in the footer as a courtesy (see License).
-
-## Local setup
-
-Run:
+## Local verification
 
 ```sh
-./scripts/setup.sh
 npm ci
 npm run build
 ```
 
-The setup script configures the public repo commit identity:
+## Security and compliance evidence
 
-```text
-Kicoba.com <agentic-workspace@kicoba.com>
-```
+- Git history records monitoring configuration changes.
+- GitHub Actions retains monitor and deployment execution evidence.
+- GitHub issues retain incident opening, recovery, and closure timestamps.
+- Public leakage checks run in CI and before each Pages deployment.
+- Private probe URLs remain in GitHub Actions secrets.
 
-The local pre-commit hook refuses any other commit email.
+This evidence supports incident response, monitoring, availability, and change
+management controls. Control owners remain responsible for retention settings,
+access reviews, alert ownership, and periodic recovery tests.
 
-## License
+## Upstream and license
 
-Licensed under the European Union Public Licence v1.2 (EUPL-1.2). See
-[`LICENSE`](LICENSE). Copyright Kicoba, https://kicoba.com. For why a European
-licence over US-origin ones like MIT or Apache, see
-[docs/why-eupl.md](docs/why-eupl.md).
+This repository is a real GitHub fork of
+[`Kicoba/kicoba-status-page`](https://github.com/Kicoba/kicoba-status-page). Keep
+the `upstream` remote when working locally so improvements can be synchronized.
 
-You are welcome to reuse and adapt this status page for your own services, mostly
-through `monitor.config.json` and the repository secrets. If you do, please keep
-the link to https://kicoba.com in the page footer. It is a courtesy that supports
-the project, not a legal obligation under the EUPL.
-
+Licensed under the European Union Public Licence v1.2. See [`LICENSE`](LICENSE).
+The footer retains the Kicoba attribution requested by the upstream project.

@@ -2,23 +2,19 @@
   "components": [
     {
       "id": "landing",
-      "label": "Landing Page"
+      "label": "Site public"
     },
     {
       "id": "app",
-      "label": "App"
+      "label": "Application"
+    },
+    {
+      "id": "host",
+      "label": "Espace hôte"
     },
     {
       "id": "api",
       "label": "API"
-    },
-    {
-      "id": "data-room",
-      "label": "Data Room"
-    },
-    {
-      "id": "agent-execution",
-      "label": "Agent Execution"
     }
   ],
   "probes": [
@@ -33,41 +29,26 @@
       "component": "app"
     },
     {
-      "urlEnv": "PROBE_URL_DATAROOM",
+      "urlEnv": "PROBE_URL_HOST",
       "mode": "http-200",
-      "component": "data-room"
+      "component": "host"
     },
     {
-      "urlEnv": "PROBE_URL_API_STATUS",
-      "mode": "api-status-json",
-      "components": {
-        "api": "api",
-        "agentExecution": "agent-execution"
-      }
+      "urlEnv": "PROBE_URL_API",
+      "mode": "http-200",
+      "component": "api"
     }
   ],
   "privateProbes": [
     {
-      "id": "app-login",
-      "urlEnv": "PROBE_URL_PRIVATE_APP_LOGIN",
+      "id": "argos-control-plane",
+      "urlEnv": "PROBE_URL_PRIVATE_ARGOS",
       "mode": "http-status",
       "expectedStatus": 200
     },
     {
-      "id": "waitlist-submit",
-      "urlEnv": "PROBE_URL_PRIVATE_WAITLIST",
-      "mode": "http-status",
-      "expectedStatus": 200
-    },
-    {
-      "id": "data-room-auth-gate",
-      "urlEnv": "PROBE_URL_PRIVATE_DATAROOM_AUTH_GATE",
-      "mode": "http-status",
-      "expectedStatus": 200
-    },
-    {
-      "id": "automation-canary",
-      "urlEnv": "PROBE_URL_PRIVATE_AUTOMATION_CANARY",
+      "id": "vault",
+      "urlEnv": "PROBE_URL_PRIVATE_VAULT",
       "mode": "http-status",
       "expectedStatus": 200
     }
