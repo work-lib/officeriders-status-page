@@ -17,6 +17,7 @@ The public page reports these customer-facing components:
 
 - Public website: `PROBE_URL_LANDING`
 - Web app: `PROBE_URL_APP`
+- Authentication: `PROBE_URL_AUTH`
 - Host app: `PROBE_URL_HOST`
 - API: `PROBE_URL_API`
 

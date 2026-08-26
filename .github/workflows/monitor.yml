@@ -31,6 +31,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           PROBE_URL_LANDING: ${{ vars.PROBE_URL_LANDING }}
           PROBE_URL_APP: ${{ vars.PROBE_URL_APP }}
+          PROBE_URL_AUTH: ${{ vars.PROBE_URL_AUTH }}
           PROBE_URL_HOST: ${{ vars.PROBE_URL_HOST }}
           PROBE_URL_API: ${{ vars.PROBE_URL_API }}
 
